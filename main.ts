@@ -152,11 +152,6 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSpr
     info.changeScoreBy(10)
     otherSprite.destroy()
 })
-controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (Dave.vy == 0) {
-        Dave.vy = -170
-    }
-})
 scene.onOverlapTile(SpriteKind.Player, sprites.builtin.field1, function (sprite, location) {
     if (Door_Opened == 1) {
         game.splash("Your Score:", convertToText(info.score()))
@@ -167,6 +162,11 @@ scene.onOverlapTile(SpriteKind.Player, sprites.builtin.field1, function (sprite,
 })
 scene.onOverlapTile(SpriteKind.Food, sprites.dungeon.doorClosedNorth, function (sprite, location) {
     Yellow_Gems.destroy()
+})
+controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (Dave.vy == 0) {
+        Dave.vy = -170
+    }
 })
 let Door_Opened = 0
 let MagicKey: Sprite = null
@@ -340,6 +340,3 @@ info.setScore(0)
 addGems(15)
 info.setLife(3)
 createKey()
-game.onUpdate(function () {
-	
-})
