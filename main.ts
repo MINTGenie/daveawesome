@@ -101,6 +101,31 @@ namespace myTiles {
 scene.onOverlapTile(SpriteKind.Food, sprites.builtin.field1, function (sprite, location) {
     Yellow_Gems.destroy()
 })
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Keys, function (sprite, otherSprite) {
+    info.changeScoreBy(1000)
+    game.splash("Now go thru the Door!!!")
+    MagicKey.setFlag(SpriteFlag.Invisible, true)
+    Door_Opened = 1
+    otherSprite.destroy()
+})
+function addGems (num: number) {
+    for (let index = 0; index < num; index++) {
+        Yellow_Gems = sprites.create(img`
+. . 5 5 5 5 5 5 5 5 5 . . 
+. . 5 5 5 5 5 5 1 5 5 . . 
+. 5 5 5 5 5 5 5 5 1 5 5 . 
+5 5 5 5 5 5 5 5 5 5 1 5 5 
+. 5 5 5 5 5 5 5 5 1 5 5 . 
+. . 5 5 5 5 5 5 1 1 5 . . 
+. . . 5 5 5 5 1 1 5 . . . 
+. . . . 5 5 5 1 5 . . . . 
+. . . . . 5 5 5 . . . . . 
+. . . . . . 5 . . . . . . 
+`, SpriteKind.Food)
+        tiles.placeOnRandomTile(Yellow_Gems, sprites.dungeon.purpleOuterNorth1)
+        Yellow_Gems.bottom = Yellow_Gems.bottom - 15
+    }
+}
 function createKey () {
     MagicKey = sprites.create(img`
 . . . . . . . . . . . . . . . . 
@@ -123,31 +148,6 @@ function createKey () {
     tiles.placeOnRandomTile(MagicKey, sprites.dungeon.purpleInnerNorthEast)
     MagicKey.bottom = MagicKey.bottom - 15
 }
-function addGems (num: number) {
-    for (let index = 0; index < num; index++) {
-        Yellow_Gems = sprites.create(img`
-. . 5 5 5 5 5 5 5 5 5 . . 
-. . 5 5 5 5 5 5 1 5 5 . . 
-. 5 5 5 5 5 5 5 5 1 5 5 . 
-5 5 5 5 5 5 5 5 5 5 1 5 5 
-. 5 5 5 5 5 5 5 5 1 5 5 . 
-. . 5 5 5 5 5 5 1 1 5 . . 
-. . . 5 5 5 5 1 1 5 . . . 
-. . . . 5 5 5 1 5 . . . . 
-. . . . . 5 5 5 . . . . . 
-. . . . . . 5 . . . . . . 
-`, SpriteKind.Food)
-        tiles.placeOnRandomTile(Yellow_Gems, sprites.dungeon.purpleOuterNorth1)
-        Yellow_Gems.bottom = Yellow_Gems.bottom - 15
-    }
-}
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Keys, function (sprite, otherSprite) {
-    info.changeScoreBy(1000)
-    game.splash("Now go thru the Door!!!")
-    MagicKey.setFlag(SpriteFlag.Invisible, true)
-    Door_Opened = 1
-    otherSprite.destroy()
-})
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
     info.changeScoreBy(10)
     otherSprite.destroy()
@@ -310,6 +310,7 @@ b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b 
 b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b 
 b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b 
 `)
+game.splash("Collect Gems &", "Find the Key to the door")
 let GRAVITY = 400
 Dave = sprites.create(img`
 . . . . . . f f f f . . . . . . 
