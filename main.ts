@@ -222,62 +222,18 @@ function addYellowGems () {
         tiles.setTileAt(value, myTiles.tile0)
     }
 }
-function CreateDave () {
-    Dave = sprites.create(img`
-. . . . . . f f f f . . . . . . 
-. . . . f f f 2 2 f f f . . . . 
-. . . f f f 2 2 2 2 f f f . . . 
-. . f f f e e e e e e f f f . . 
-. . f f e 2 2 2 2 2 2 e e f . . 
-. . f e 2 f f f f f f 2 e f . . 
-. . f f f f e e e e f f f f . . 
-. f f e f b f 4 4 f b f e f f . 
-. f e e 4 1 f d d f 1 4 e e f . 
-. . f e e d d d d d d e e f . . 
-. . . f e e 4 4 4 4 e e f . . . 
-. . e 4 f 2 2 2 2 2 2 f 4 e . . 
-. . 4 d f 2 2 2 2 2 2 f d 4 . . 
-. . 4 4 f 4 4 5 5 4 4 f 4 4 . . 
-. . . . . f f f f f f . . . . . 
-. . . . . f f . . f f . . . . . 
-`, SpriteKind.Player)
-    controller.moveSprite(Dave, 100, 0)
-    Dave.ay = GRAVITY
-    Dave.z = 1
-    scene.cameraFollowSprite(Dave)
-}
-function destroyLevel () {
-    Dave.destroy()
-    for (let value of tiles.getTilesByType(img`
-. . 9 9 9 9 9 9 9 9 9 . . 
-. . 9 9 9 9 9 9 1 9 9 . . 
-. 9 9 9 9 9 9 9 9 1 9 9 . 
-9 9 9 9 9 9 9 9 9 9 1 9 9 
-. 9 9 9 9 9 9 9 9 1 9 9 . 
-. . 9 9 9 9 9 9 1 1 9 . . 
-. . . 9 9 9 9 1 1 9 . . . 
-. . . . 9 9 9 1 9 . . . . 
-. . . . . 9 9 9 . . . . . 
-. . . . . . 9 . . . . . . 
-`)) {
-        Blue_Gems.destroy()
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Keys, function (sprite, otherSprite) {
+    info.changeScoreBy(1000)
+    game.splash("Now go thru the Door!!!")
+    HaveKey = 1
+    otherSprite.destroy()
+    for (let value of tiles.getTilesByType(myTiles.tile7)) {
+        tiles.setTileAt(value, myTiles.tile0)
     }
-    for (let value of tiles.getTilesByType(img`
-. . 5 5 5 5 5 5 5 5 5 . . 
-. . 5 5 5 5 5 5 1 5 5 . . 
-. 5 5 5 5 5 5 5 5 1 5 5 . 
-5 5 5 5 5 5 5 5 5 5 1 5 5 
-. 5 5 5 5 5 5 5 5 1 5 5 . 
-. . 5 5 5 5 5 5 1 1 5 . . 
-. . . 5 5 5 5 1 1 5 . . . 
-. . . . 5 5 5 1 5 . . . . 
-. . . . . 5 5 5 . . . . . 
-. . . . . . 5 . . . . . . 
-`)) {
-        Yellow_Gems.destroy()
+    for (let value of tiles.getTilesByType(myTiles.tile8)) {
+        tiles.setTileAt(value, myTiles.tile9)
     }
-    MagicKey.destroy()
-}
+})
 function createLevel (level: number) {
     respawn = false
     CreateDave()
@@ -576,9 +532,9 @@ b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b 
         addBlueGems()
     }
 }
-function addBlueGems () {
-    for (let value of tiles.getTilesByType(myTiles.tile6)) {
-        Blue_Gems = sprites.create(img`
+function destroyLevel () {
+    Dave.destroy()
+    for (let value of tiles.getTilesByType(img`
 . . 9 9 9 9 9 9 9 9 9 . . 
 . . 9 9 9 9 9 9 1 9 9 . . 
 . 9 9 9 9 9 9 9 9 1 9 9 . 
@@ -589,23 +545,25 @@ function addBlueGems () {
 . . . . 9 9 9 1 9 . . . . 
 . . . . . 9 9 9 . . . . . 
 . . . . . . 9 . . . . . . 
-`, SpriteKind.BlueGems)
-        tiles.placeOnTile(Blue_Gems, value)
-        tiles.setTileAt(value, myTiles.tile0)
+`)) {
+        Blue_Gems.destroy()
     }
+    for (let value of tiles.getTilesByType(img`
+. . 5 5 5 5 5 5 5 5 5 . . 
+. . 5 5 5 5 5 5 1 5 5 . . 
+. 5 5 5 5 5 5 5 5 1 5 5 . 
+5 5 5 5 5 5 5 5 5 5 1 5 5 
+. 5 5 5 5 5 5 5 5 1 5 5 . 
+. . 5 5 5 5 5 5 1 1 5 . . 
+. . . 5 5 5 5 1 1 5 . . . 
+. . . . 5 5 5 1 5 . . . . 
+. . . . . 5 5 5 . . . . . 
+. . . . . . 5 . . . . . . 
+`)) {
+        Yellow_Gems.destroy()
+    }
+    MagicKey.destroy()
 }
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Keys, function (sprite, otherSprite) {
-    info.changeScoreBy(1000)
-    game.splash("Now go thru the Door!!!")
-    HaveKey = 1
-    otherSprite.destroy()
-    for (let value of tiles.getTilesByType(myTiles.tile7)) {
-        tiles.setTileAt(value, myTiles.tile0)
-    }
-    for (let value of tiles.getTilesByType(myTiles.tile8)) {
-        tiles.setTileAt(value, myTiles.tile9)
-    }
-})
 function createKey () {
     MagicKey = sprites.create(img`
 . . . . . . . . . . . . . . . . 
@@ -641,7 +599,7 @@ scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.hazardLava0, function (sp
     sprite.setFlag(SpriteFlag.Ghost, true)
     tiles.setTileAt(location, sprites.dungeon.buttonOrange)
     info.changeLifeBy(-1)
-    game.splash("Try Again", "")
+    game.splash("Try Again")
     destroyLevel()
     respawn = true
     createLevel(levelCount)
@@ -654,10 +612,52 @@ controller.up.onEvent(ControllerButtonEvent.Repeated, function () {
         Dave.vy = -170
     }
 })
-let HaveKey = 0
+function addBlueGems () {
+    for (let value of tiles.getTilesByType(myTiles.tile6)) {
+        Blue_Gems = sprites.create(img`
+. . 9 9 9 9 9 9 9 9 9 . . 
+. . 9 9 9 9 9 9 1 9 9 . . 
+. 9 9 9 9 9 9 9 9 1 9 9 . 
+9 9 9 9 9 9 9 9 9 9 1 9 9 
+. 9 9 9 9 9 9 9 9 1 9 9 . 
+. . 9 9 9 9 9 9 1 1 9 . . 
+. . . 9 9 9 9 1 1 9 . . . 
+. . . . 9 9 9 1 9 . . . . 
+. . . . . 9 9 9 . . . . . 
+. . . . . . 9 . . . . . . 
+`, SpriteKind.BlueGems)
+        tiles.placeOnTile(Blue_Gems, value)
+        tiles.setTileAt(value, myTiles.tile0)
+    }
+}
+function CreateDave () {
+    Dave = sprites.create(img`
+. . . . . . f f f f . . . . . . 
+. . . . f f f 2 2 f f f . . . . 
+. . . f f f 2 2 2 2 f f f . . . 
+. . f f f e e e e e e f f f . . 
+. . f f e 2 2 2 2 2 2 e e f . . 
+. . f e 2 f f f f f f 2 e f . . 
+. . f f f f e e e e f f f f . . 
+. f f e f b f 4 4 f b f e f f . 
+. f e e 4 1 f d d f 1 4 e e f . 
+. . f e e d d d d d d e e f . . 
+. . . f e e 4 4 4 4 e e f . . . 
+. . e 4 f 2 2 2 2 2 2 f 4 e . . 
+. . 4 d f 2 2 2 2 2 2 f d 4 . . 
+. . 4 4 f 4 4 5 5 4 4 f 4 4 . . 
+. . . . . f f f f f f . . . . . 
+. . . . . f f . . f f . . . . . 
+`, SpriteKind.Player)
+    controller.moveSprite(Dave, 100, 0)
+    Dave.ay = GRAVITY
+    Dave.z = 1
+    scene.cameraFollowSprite(Dave)
+}
 let MagicKey: Sprite = null
 let Blue_Gems: Sprite = null
 let Dave: Sprite = null
+let HaveKey = 0
 let Yellow_Gems: Sprite = null
 let respawn = false
 let levelCount = 0
