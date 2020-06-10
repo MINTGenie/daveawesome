@@ -236,8 +236,8 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Keys, function (sprite, otherSpr
 })
 function createLevel (level: number) {
     respawn = false
-    CreateDave()
     if (level == 1) {
+        CreateDave()
         scene.setBackgroundImage(img`
 b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b 
 b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b 
@@ -383,8 +383,8 @@ b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b 
         createKey()
         addYellowGems()
         addBlueGems()
-    } else {
-        Dave.setFlag(SpriteFlag.Ghost, false)
+    } else if (level == 2) {
+        CreateDave()
         scene.setBackgroundImage(img`
 b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b 
 b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b 
@@ -530,6 +530,8 @@ b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b 
         createKey()
         addYellowGems()
         addBlueGems()
+    } else {
+    	
     }
 }
 function destroyLevel () {
@@ -596,13 +598,15 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.BlueGems, function (sprite, othe
     otherSprite.destroy()
 })
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.hazardLava0, function (sprite, location) {
-    sprite.setFlag(SpriteFlag.Ghost, true)
-    tiles.setTileAt(location, sprites.dungeon.buttonOrange)
-    info.changeLifeBy(-1)
-    game.splash("Try Again")
-    destroyLevel()
-    respawn = true
-    createLevel(levelCount)
+    if (_1stOccurance == 0) {
+        _1stOccurance = 1
+        CurrentTime = game.runtime()
+        info.changeLifeBy(-1)
+        game.splash("Try Again")
+        destroyLevel()
+        respawn = true
+        createLevel(levelCount)
+    }
 })
 scene.onOverlapTile(SpriteKind.Player, myTiles.tile8, function (sprite, location) {
     game.splash("No Key Yet??? Go Find it!!!")
@@ -654,6 +658,8 @@ function CreateDave () {
     Dave.z = 1
     scene.cameraFollowSprite(Dave)
 }
+let CurrentTime = 0
+let _1stOccurance = 0
 let MagicKey: Sprite = null
 let Blue_Gems: Sprite = null
 let Dave: Sprite = null
@@ -667,9 +673,11 @@ GRAVITY = 400
 controller.configureRepeatEventDefaults(0, 100)
 info.setScore(0)
 info.setLife(5)
-levelCount = 2
-createLevel(levelCount)
+levelCount = 1
 respawn = false
-game.onUpdate(function () {
-	
+createLevel(levelCount)
+game.onUpdateInterval(500, function () {
+    if (_1stOccurance == 1 && game.runtime() > CurrentTime + 500) {
+        _1stOccurance = 0
+    }
 })
