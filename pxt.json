@@ -1,8 +1,10 @@
 {
-    "name": "DaveAwesome_lvl2",
+    "name": "DaveAwesome_lvl3",
     "dependencies": {
         "device": "*",
-        "controller": "*"
+        "controller": "*",
+        "animation": "*",
+        "settings-blocks": "github:microsoft/pxt-settings-blocks#v1.0.0"
     },
     "description": "",
     "files": [
